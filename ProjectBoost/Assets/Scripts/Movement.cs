@@ -6,12 +6,14 @@ public class Movement : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody rb;
+    AudioSource audioSrc;
     [SerializeField] float upThrustPower = 1000f;
     [SerializeField] float rotationThrustPower = 100f;
+    [SerializeField] AudioClip mainEngine;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+        audioSrc = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -24,7 +26,12 @@ public class Movement : MonoBehaviour
 
     void ProcessThrust(){
         if(Input.GetKey(KeyCode.Space)){
+            if(!audioSrc.isPlaying){
+                audioSrc.PlayOneShot(mainEngine);
+            }
             rb.AddRelativeForce(Vector3.up * upThrustPower * Time.deltaTime);
+        }else{
+            audioSrc.Stop();
         }
         
     }
