@@ -1,0 +1,37 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]serData/
+[Ll]ibrary-collab-[^/]+/
+[Ll]ocal[Cc]ache/
+[Ss]treamingAssets/Build/
+[Ss]treamingAssets/Deploy/
+[Tt]ours/
+
+# Rider
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Unity3D generated meta files
+*.pidb.meta
+
+# Unity3D generated file on crash reports
+sysinfo.txt
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
