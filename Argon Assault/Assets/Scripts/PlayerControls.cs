@@ -9,11 +9,14 @@ using UnityEngine.WSA;
 public class PlayerControls : MonoBehaviour
 {
     // Start is called before the first frame update
+    [Header("General Setup Settings")]
     [SerializeField] InputAction movement;
     [SerializeField] InputAction fire;
-    [SerializeField] float controlSpeed = 10f;
+    [Tooltip("How fast ship moves up and down")] [SerializeField] float controlSpeed = 10f;
     [SerializeField] float xRange = 5f;
     [SerializeField] float yRange = 5f;
+
+    [Header("Screen position based tuning")]
     [SerializeField] float postitionPitchFactor = -2f;
     [SerializeField] float controlPitchFactor = -10f;
     [SerializeField] float positionYawFactor = -2f;
@@ -23,17 +26,19 @@ public class PlayerControls : MonoBehaviour
     float xThrow;
     void Start()
     {
-        
+
     }
 
-    void OnEnable() {
+    void OnEnable()
+    {
         movement.Enable();
         fire.Enable();
     }
 
-    void OnDisable() {
-        movement.Disable();   
-        fire.Disable(); 
+    void OnDisable()
+    {
+        movement.Disable();
+        fire.Disable();
     }
 
     // Update is called once per frame
@@ -48,10 +53,10 @@ public class PlayerControls : MonoBehaviour
     {
         float pitchDueToPostition = transform.localPosition.y * postitionPitchFactor;
         float pitchDueToControlThrow = yThrow * controlPitchFactor;
-        float pitch =  pitchDueToPostition + pitchDueToControlThrow;
+        float pitch = pitchDueToPostition + pitchDueToControlThrow;
         float yaw = transform.localPosition.x * positionYawFactor;
         float roll = xThrow * controlRollFactor;
-        transform.localRotation = Quaternion.Euler(pitch,yaw,roll);
+        transform.localRotation = Quaternion.Euler(pitch, yaw, roll);
     }
 
     private void ProcessTranslation()
@@ -77,26 +82,39 @@ public class PlayerControls : MonoBehaviour
         // Debug.Log(verticalThrow);
     }
 
-    void ProcessFiring(){
+    void ProcessFiring()
+    {
         //push fire button
-        if(fire.ReadValue<float>() > .5){
+        if (fire.ReadValue<float>() > .5)
+        {
             ActivateLasers();
-        }else{
+        }
+        else
+        {
             DeactivateLasers();
         }
     }
 
     private void DeactivateLasers()
     {
-        foreach(GameObject laser in lasers){
-          laser.SetActive(false);
-       } 
-    }
+        toggleEmission(false);
 
+    }
     private void ActivateLasers()
     {
-       foreach(GameObject laser in lasers){
-          laser.SetActive(true);
-       } 
+
+        toggleEmission(true);
+
     }
+
+    private void toggleEmission(bool toggle)
+    {
+        foreach (GameObject laser in lasers)
+        {
+            var emissionModule = laser.GetComponent<ParticleSystem>().emission;
+            emissionModule.enabled = toggle;
+        }
+    }
+
+
 }
