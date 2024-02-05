@@ -5,14 +5,17 @@ using UnityEngine;
 public class EnemyMover : MonoBehaviour
 {
     [SerializeField] List<Waypoint> path = new List<Waypoint>();
+    [SerializeField] float waitTime = 1f;
     void Start()
     {
-        PrintWaypointName();
-        InvokeRepeating("PrintWaypointName",0,1f);
+        //instead of using invoke you can use this
+         StartCoroutine(FollowPath());
     }
-    void PrintWaypointName(){
+    //coroutine
+    IEnumerator FollowPath(){
         foreach(Waypoint waypoint in path){
-            Debug.Log(waypoint.name);
+            transform.position = waypoint.transform.position;
+            yield return new WaitForSeconds(waitTime);
         }
     }
 }
