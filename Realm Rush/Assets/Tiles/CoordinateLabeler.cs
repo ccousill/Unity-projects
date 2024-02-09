@@ -8,13 +8,15 @@ public class CoordinateLabeler : MonoBehaviour
 {
     [SerializeField] Color defaultColor = Color.white;
     [SerializeField] Color blockedColor = Color.grey;
+    [SerializeField] Color exploredColor = Color.yellow;
+    [SerializeField] Color pathColor = new Color(1f,.5f,0f);
     TextMeshPro label;
     Vector2Int coordinates = new Vector2Int();
-    Waypoint waypoint;
+    GridManager gridManager;
     void Awake() {
+        gridManager = FindObjectOfType<GridManager>();
         label = GetComponent<TextMeshPro>();
         label.enabled = false;
-        waypoint = GetComponentInParent<Waypoint>();
         DisplayCoordinates();
     }
     // Update is called once per frame
@@ -36,18 +38,28 @@ public class CoordinateLabeler : MonoBehaviour
     }
 
     void SetLabelColor(){
-        bool isPlaceable = waypoint.IsPlaceable;
-        if(isPlaceable){
-            label.color = defaultColor;
+        if(gridManager ==null) {return;}
+        Node node = gridManager.GetNode(coordinates);
 
-        }else{
+        if(node == null) {return;}
+        if(!node.isWalkable){
             label.color = blockedColor;
+        }
+        else if(node.isPath){
+            label.color = pathColor;
+        }
+        else if(node.isExplored){
+            label.color = exploredColor;
+        }
+        else{
+            label.color = defaultColor;
         }
         
     }
     void DisplayCoordinates(){
-        coordinates.x = Mathf.RoundToInt(transform.parent.position.x/ UnityEditor.EditorSnapSettings.move.x);
-        coordinates.y = Mathf.RoundToInt(transform.parent.position.z/ UnityEditor.EditorSnapSettings.move.z);
+        if(gridManager == null){return;}
+        coordinates.x = Mathf.RoundToInt(transform.parent.position.x/ gridManager.getUnityGridSize());
+        coordinates.y = Mathf.RoundToInt(transform.parent.position.z/ gridManager.getUnityGridSize());
         label.text = coordinates.x + "," + coordinates.y;
     }
 
