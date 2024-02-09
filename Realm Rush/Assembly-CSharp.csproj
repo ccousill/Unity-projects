@@ -65,11 +65,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Enemy\Enemy.cs" />
+    <Compile Include="Assets\Pathfinding\Node.cs" />
     <Compile Include="Assets\Tower\Tower.cs" />
     <Compile Include="Assets\Tower\TargetLocator.cs" />
     <Compile Include="Assets\Enemy\ObjectPool.cs" />
     <Compile Include="Assets\Tiles\Waypoint.cs" />
     <Compile Include="Assets\Enemy\EnemyMover.cs" />
+    <Compile Include="Assets\Pathfinding\GridManager.cs" />
     <Compile Include="Assets\Bank\Bank.cs" />
     <Compile Include="Assets\Tiles\CoordinateLabeler.cs" />
     <Compile Include="Assets\Enemy\EnemyHealth.cs" />
